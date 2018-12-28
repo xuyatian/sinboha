@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinboha", "Sinboha\Sinboha.vcxproj", "{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSinboha", "TestSinboha\TestSinboha.vcxproj", "{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35} = {C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

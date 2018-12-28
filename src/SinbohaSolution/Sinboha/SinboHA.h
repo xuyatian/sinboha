@@ -1,9 +1,9 @@
 #pragma once
 
 #ifdef SINBOHA_DLL_EXPORT
-#define SINBOHA_DLL dllexport
+#define SINBOHA_DLL __declspec(dllexport)
 #else
-#define SINBOHA_DLL dllimport
+#define SINBOHA_DLL __declspec(dllimport)
 #endif
 
 namespace SINBOHA_NSP 
@@ -21,7 +21,7 @@ namespace SINBOHA_NSP
         SINBOHA_STATUS_STANDBY,
     };
 
-    class SinboHaCallbackIf
+    class SinbohaCallbackIf
     {
     public:
         virtual void OnStatusChange(SinbohaStatus Status) = 0;
@@ -29,10 +29,9 @@ namespace SINBOHA_NSP
         virtual void OnReceiveData() = 0;
     };
 
-    class SINBOHA_DLL SinbohaIf
+    class SinbohaIf
     {
      public:
-         static SinbohaIf* Instance();
          virtual SinbohaError Initialize() = 0;
          virtual SinbohaError Release() = 0;
          virtual void RegisterCallback() = 0;
@@ -41,3 +40,5 @@ namespace SINBOHA_NSP
          virtual SinbohaStatus GetHaStatus() = 0;
     };
 }
+
+SINBOHA_DLL SINBOHA_NSP::SinbohaIf* GetSinbohaIf();

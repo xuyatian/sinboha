@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sinboha", "Sinboha\Sinboha.vcxproj", "{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSinboha", "TestSinboha\TestSinboha.vcxproj", "{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}.Release|x64.Build.0 = Release|x64
 		{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}.Release|x86.ActiveCfg = Release|Win32
 		{C91F074E-2CD4-4D0B-82FA-AEDC88A27C35}.Release|x86.Build.0 = Release|Win32
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Debug|x64.ActiveCfg = Debug|x64
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Debug|x64.Build.0 = Debug|x64
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Debug|x86.ActiveCfg = Debug|Win32
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Debug|x86.Build.0 = Debug|Win32
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Release|x64.ActiveCfg = Release|x64
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Release|x64.Build.0 = Release|x64
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Release|x86.ActiveCfg = Release|Win32
+		{0A0F54E7-0FD9-42CB-BBD1-F9AA6087617C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

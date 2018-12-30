@@ -1,5 +1,9 @@
 #pragma once
 
+#include <chrono>
+#include <string>
+#include <memory>
+
 #ifdef SINBOHA_DLL_EXPORT
 #define SINBOHA_DLL __declspec(dllexport)
 #else
@@ -32,11 +36,20 @@ namespace SINBOHA_NSP
     class SinbohaIf
     {
      public:
-         virtual SinbohaError Initialize() = 0;
+         virtual SinbohaError Initialize(
+             const std::string& PeerPrimaryAddress,
+             const std::string& PeerSecondaryAddress,
+             int PeerPort,
+             int Port,
+             std::chrono::milliseconds NetworkTimeout,
+             std::chrono::milliseconds Heartbeat,
+             std::chrono::milliseconds SwitchTimeout,
+             bool Debug = false) = 0;
+
          virtual SinbohaError Release() = 0;
-         virtual void RegisterCallback() = 0;
+         virtual void RegisterCallback(std::shared_ptr<SinbohaCallbackIf>) = 0;
          virtual void UnRegisterCallback() = 0;
-         virtual void SetHaStatus(SinbohaStatus Status) = 0;
+         virtual SinbohaError Switch() = 0;
          virtual SinbohaStatus GetHaStatus() = 0;
     };
 }

@@ -1,0 +1,6 @@
+namespace cpp SINBOHA_NET
+
+service SinbohaRPC
+{
+	bool CanYouActivateMe(1: i64 ChangeTime, 2: i16 Status),
+}

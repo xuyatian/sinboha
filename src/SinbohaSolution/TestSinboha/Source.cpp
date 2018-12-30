@@ -1,23 +1,60 @@
-#include <chrono>
-#include <iostream>
 #include "../Sinboha/Sinboha.h"
+#include <iostream>
+#include <thread>
 
 using namespace std;
 using namespace SINBOHA_NSP;
-int main()
+using namespace std::chrono_literals;
+
+class CallBack : public SinbohaCallbackIf
 {
+    virtual void OnStatusChange(SinbohaStatus Status) override
+    {
+        if (SinbohaStatus::SINBOHA_STATUS_PENDING == Status)
+        {
+            cout << "PENDING" << endl;
+            return;
+        }
+
+        if (SinbohaStatus::SINBOHA_STATUS_ACTIVE == Status)
+        {
+            cout << "ACTIVE" << endl;
+            return;
+        }
+
+        if (SinbohaStatus::SINBOHA_STATUS_STANDBY == Status)
+        {
+            cout << "STANDBY" << endl;
+            return;
+        }
+    }
+
+    virtual void OnReceiveTag() override
+    {
+    }
+    virtual void OnReceiveData() override
+    {
+    }
+};
+
+int main(int argc, char** argv)
+{
+    string Peer = argv[1];
+    int PeerPort = atoi(argv[2]);
+    int Port = atoi(argv[3]);
+    int Timeout = atoi(argv[4]);
+    int Heartbeat = atoi(argv[5]);
+    int SwitchTimeout = atoi(argv[6]);
+
     auto ha = GetSinbohaIf();
 
-    auto now = chrono::system_clock::now();
+    auto rc = ha->Initialize(Peer, "", PeerPort, Port, chrono::milliseconds(Timeout), chrono::milliseconds(Heartbeat), chrono::milliseconds(SwitchTimeout));
 
-    auto epoch = chrono::duration_cast<chrono::milliseconds>(now.time_since_epoch()).count();
-    cout << epoch << endl;
+    ha->RegisterCallback(make_shared<CallBack>());
+    
+    this_thread::sleep_for(chrono::seconds(10));
+    ha->Switch();
+    this_thread::sleep_for(chrono::hours(10));
 
-    auto now2 = chrono::system_clock::time_point(chrono::milliseconds(epoch));
-    epoch =  chrono::duration_cast<chrono::milliseconds>(now2.time_since_epoch()).count();
-    cout << epoch << endl;
-
-    auto now3 = chrono::system_clock::time_point();
-    epoch =  chrono::duration_cast<chrono::milliseconds>(now3.time_since_epoch()).count();
-    cout << epoch << endl;
+    ha->Release();
 }

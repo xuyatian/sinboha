@@ -21,12 +21,54 @@
     <ClInclude Include="SinbohaImp.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SinbohaHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SinbohaNetService.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gen-cpp\sinboha_constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gen-cpp\sinboha_types.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="gen-cpp\SinbohaRPC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SinbohaRPCHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SinbohaNetClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SinbohaHeartbeat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sinboha.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SinbohaImp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SinbohaNetService.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gen-cpp\sinboha_constants.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gen-cpp\sinboha_types.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gen-cpp\SinbohaRPC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SinbohaNetClient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SinbohaHeartbeat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

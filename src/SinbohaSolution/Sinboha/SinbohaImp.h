@@ -2,6 +2,8 @@
 #include <chrono>
 #include <mutex>
 #include "Sinboha.h"
+#include "SinbohaNetService.h"
+#include "SinbohaHeartbeat.h"
 
 using namespace std;
 using namespace SINBOHA_NSP;
@@ -12,14 +14,20 @@ public:
     SinbohaStatusRep();
     SinbohaStatus Query();
     void Query(chrono::system_clock::time_point& ChangeTime, SinbohaStatus& Status);
-    bool AllowPeerActivate(chrono::system_clock::time_point& PeerChangeTime, SinbohaStatus& PeerStatus);
+    bool IfAllowPeerActivate(const chrono::system_clock::time_point& PeerChangeTime, const SinbohaStatus& PeerStatus);
     void TryActivate(bool PeerAllowActivate);
+    void BrainSplit(const chrono::milliseconds& Idle);
+    SinbohaError Switch();
 
+    void RegisterCallback(shared_ptr<SinbohaCallbackIf>);
+    void UnRegisterCallback();
 private:
     mutex m_Lock;
     chrono::system_clock::time_point m_ChangeTime;
-    chrono::system_clock::time_point m_QueryTime;
     SinbohaStatus m_Status;
+    shared_ptr<SinbohaCallbackIf> m_Callback;
+
+    chrono::system_clock::time_point m_PeerAccessTime;
 };
 
 class SinbohaImp : public SinbohaIf
@@ -28,14 +36,27 @@ public:
     static SinbohaImp* Instance();
     ~SinbohaImp();
 
-    SinbohaError Initialize() override;
+    SinbohaError Initialize(
+        const std::string & PeerPrimaryAddress, 
+        const std::string & PeerSecondaryAddress,
+        int PeerPort, 
+        int Port, 
+        std::chrono::milliseconds NetworkTimeout,
+        std::chrono::milliseconds Heartbeat, 
+        std::chrono::milliseconds SwitchTimeout,
+        bool Debug = false) override;
+
     SinbohaError Release() override;
-    void RegisterCallback() override;
+    void RegisterCallback(shared_ptr<SinbohaCallbackIf>) override;
     void UnRegisterCallback() override;
-    void SetHaStatus(SinbohaStatus Status) override;
+    virtual SinbohaError Switch() override;
     SinbohaStatus GetHaStatus() override;
 
-    void TryActivate();
+    void Query(chrono::system_clock::time_point& ChangeTime, SinbohaStatus& Status);
+    bool IfAllowPeerActivate(const chrono::system_clock::time_point& PeerChangeTime, const SinbohaStatus& PeerStatus);
+    void TryActivate(bool PeerAllowActivate);
+    void BrainSplit(const chrono::milliseconds& PeerIdle);
+
 private:
     SinbohaImp();
     SinbohaImp(const SinbohaImp&) = delete;
@@ -44,5 +65,7 @@ private:
     SinbohaImp& operator=(const SinbohaImp&&) = delete;
 
     SinbohaStatusRep m_Status;
+    SinbohaNetService m_RPCService;
+    SinbohaHeartbeat m_Heartbeat;
 };
 

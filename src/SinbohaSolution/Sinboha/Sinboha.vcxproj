@@ -71,19 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../;$(IncludePath)</IncludePath>
+    <IncludePath>../;E:\OpenSource\thrift-0.10.0\lib\cpp\src;E:\OpenSource\boost_1_64_0;E:\OpenSource\boost_1_64_0\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\OpenSource\lib\boost;E:\OpenSource\lib\vs2015\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../;$(IncludePath)</IncludePath>
+    <IncludePath>../;E:\OpenSource\thrift-0.10.0\lib\cpp\src;E:\OpenSource\boost_1_64_0;E:\OpenSource\boost_1_64_0\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\OpenSource\lib\boost;E:\OpenSource\lib\vs2015\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>../;$(IncludePath)</IncludePath>
+    <IncludePath>../;E:\OpenSource\thrift-0.10.0\lib\cpp\src;E:\OpenSource\boost_1_64_0;E:\OpenSource\boost_1_64_0\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\OpenSource\lib\boost;E:\OpenSource\lib\vs2015\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>../;$(IncludePath)</IncludePath>
+    <IncludePath>../;E:\OpenSource\thrift-0.10.0\lib\cpp\src;E:\OpenSource\boost_1_64_0;E:\OpenSource\boost_1_64_0\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\OpenSource\lib\boost;E:\OpenSource\lib\vs2015\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,11 +97,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SINBOHA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalOptions>/D SINBOHA_DLL_EXPORT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D SINBOHA_DLL_EXPORT /D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libthrift.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,11 +113,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SINBOHA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalOptions>/D SINBOHA_DLL_EXPORT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D SINBOHA_DLL_EXPORT /D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>E:\OpenSource\lib\vs2015\Debug\libthrift.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,13 +131,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SINBOHA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalOptions>/D SINBOHA_DLL_EXPORT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D SINBOHA_DLL_EXPORT /D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libthrift.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,22 +151,37 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SINBOHA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalOptions>/D SINBOHA_DLL_EXPORT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/D SINBOHA_DLL_EXPORT /D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>E:\OpenSource\lib\vs2015\Debug\libthrift.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gen-cpp\SinbohaRPC.h" />
+    <ClInclude Include="gen-cpp\sinboha_constants.h" />
+    <ClInclude Include="gen-cpp\sinboha_types.h" />
     <ClInclude Include="Sinboha.h" />
+    <ClInclude Include="SinbohaHeartbeat.h" />
+    <ClInclude Include="SinbohaHelper.h" />
     <ClInclude Include="SinbohaImp.h" />
+    <ClInclude Include="SinbohaNetClient.h" />
+    <ClInclude Include="SinbohaNetService.h" />
+    <ClInclude Include="SinbohaRPCHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gen-cpp\SinbohaRPC.cpp" />
+    <ClCompile Include="gen-cpp\sinboha_constants.cpp" />
+    <ClCompile Include="gen-cpp\sinboha_types.cpp" />
     <ClCompile Include="Sinboha.cpp" />
+    <ClCompile Include="SinbohaHeartbeat.cpp" />
     <ClCompile Include="SinbohaImp.cpp" />
+    <ClCompile Include="SinbohaNetClient.cpp" />
+    <ClCompile Include="SinbohaNetService.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

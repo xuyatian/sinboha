@@ -22,6 +22,7 @@ class SinbohaRPCIf {
  public:
   virtual ~SinbohaRPCIf() {}
   virtual bool CanYouActivateMe(const int64_t ChangeTime, const int16_t Status) = 0;
+  virtual int16_t SyncData(const std::string& Data) = 0;
 };
 
 class SinbohaRPCIfFactory {
@@ -53,6 +54,10 @@ class SinbohaRPCNull : virtual public SinbohaRPCIf {
   virtual ~SinbohaRPCNull() {}
   bool CanYouActivateMe(const int64_t /* ChangeTime */, const int16_t /* Status */) {
     bool _return = false;
+    return _return;
+  }
+  int16_t SyncData(const std::string& /* Data */) {
+    int16_t _return = 0;
     return _return;
   }
 };
@@ -168,6 +173,110 @@ class SinbohaRPC_CanYouActivateMe_presult {
 
 };
 
+typedef struct _SinbohaRPC_SyncData_args__isset {
+  _SinbohaRPC_SyncData_args__isset() : Data(false) {}
+  bool Data :1;
+} _SinbohaRPC_SyncData_args__isset;
+
+class SinbohaRPC_SyncData_args {
+ public:
+
+  SinbohaRPC_SyncData_args(const SinbohaRPC_SyncData_args&);
+  SinbohaRPC_SyncData_args& operator=(const SinbohaRPC_SyncData_args&);
+  SinbohaRPC_SyncData_args() : Data() {
+  }
+
+  virtual ~SinbohaRPC_SyncData_args() throw();
+  std::string Data;
+
+  _SinbohaRPC_SyncData_args__isset __isset;
+
+  void __set_Data(const std::string& val);
+
+  bool operator == (const SinbohaRPC_SyncData_args & rhs) const
+  {
+    if (!(Data == rhs.Data))
+      return false;
+    return true;
+  }
+  bool operator != (const SinbohaRPC_SyncData_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const SinbohaRPC_SyncData_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class SinbohaRPC_SyncData_pargs {
+ public:
+
+
+  virtual ~SinbohaRPC_SyncData_pargs() throw();
+  const std::string* Data;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _SinbohaRPC_SyncData_result__isset {
+  _SinbohaRPC_SyncData_result__isset() : success(false) {}
+  bool success :1;
+} _SinbohaRPC_SyncData_result__isset;
+
+class SinbohaRPC_SyncData_result {
+ public:
+
+  SinbohaRPC_SyncData_result(const SinbohaRPC_SyncData_result&);
+  SinbohaRPC_SyncData_result& operator=(const SinbohaRPC_SyncData_result&);
+  SinbohaRPC_SyncData_result() : success(0) {
+  }
+
+  virtual ~SinbohaRPC_SyncData_result() throw();
+  int16_t success;
+
+  _SinbohaRPC_SyncData_result__isset __isset;
+
+  void __set_success(const int16_t val);
+
+  bool operator == (const SinbohaRPC_SyncData_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const SinbohaRPC_SyncData_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const SinbohaRPC_SyncData_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _SinbohaRPC_SyncData_presult__isset {
+  _SinbohaRPC_SyncData_presult__isset() : success(false) {}
+  bool success :1;
+} _SinbohaRPC_SyncData_presult__isset;
+
+class SinbohaRPC_SyncData_presult {
+ public:
+
+
+  virtual ~SinbohaRPC_SyncData_presult() throw();
+  int16_t* success;
+
+  _SinbohaRPC_SyncData_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class SinbohaRPCClient : virtual public SinbohaRPCIf {
  public:
   SinbohaRPCClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -196,6 +305,9 @@ class SinbohaRPCClient : virtual public SinbohaRPCIf {
   bool CanYouActivateMe(const int64_t ChangeTime, const int16_t Status);
   void send_CanYouActivateMe(const int64_t ChangeTime, const int16_t Status);
   bool recv_CanYouActivateMe();
+  int16_t SyncData(const std::string& Data);
+  void send_SyncData(const std::string& Data);
+  int16_t recv_SyncData();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -212,10 +324,12 @@ class SinbohaRPCProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_CanYouActivateMe(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_SyncData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   SinbohaRPCProcessor(boost::shared_ptr<SinbohaRPCIf> iface) :
     iface_(iface) {
     processMap_["CanYouActivateMe"] = &SinbohaRPCProcessor::process_CanYouActivateMe;
+    processMap_["SyncData"] = &SinbohaRPCProcessor::process_SyncData;
   }
 
   virtual ~SinbohaRPCProcessor() {}
@@ -253,6 +367,15 @@ class SinbohaRPCMultiface : virtual public SinbohaRPCIf {
     return ifaces_[i]->CanYouActivateMe(ChangeTime, Status);
   }
 
+  int16_t SyncData(const std::string& Data) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->SyncData(Data);
+    }
+    return ifaces_[i]->SyncData(Data);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -286,6 +409,9 @@ class SinbohaRPCConcurrentClient : virtual public SinbohaRPCIf {
   bool CanYouActivateMe(const int64_t ChangeTime, const int16_t Status);
   int32_t send_CanYouActivateMe(const int64_t ChangeTime, const int16_t Status);
   bool recv_CanYouActivateMe(const int32_t seqid);
+  int16_t SyncData(const std::string& Data);
+  int32_t send_SyncData(const std::string& Data);
+  int16_t recv_SyncData(const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

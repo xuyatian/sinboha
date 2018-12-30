@@ -14,6 +14,17 @@ SinbohaImp::SinbohaImp()
     spdlog::default_logger()->set_level(spdlog::level::info);
 }
 
+SinbohaError SinbohaImp::SyncData(const string& Data)
+{
+    if (SinbohaStatus::SINBOHA_STATUS_ACTIVE != m_Status.Query())
+    {
+        spdlog::default_logger()->error("I am not active, ignore data synchronization.");
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+
+    return m_Sync.SyncData(Data);
+}
+
 SinbohaError SinbohaImp::Initialize(
     const std::string & PeerPrimaryAddress, 
     const std::string & PeerSecondaryAddress,
@@ -39,7 +50,7 @@ SinbohaError SinbohaImp::Initialize(
     //wait for rpc service is ready.
     this_thread::sleep_for(chrono::milliseconds(200));
 
-    if (SinbohaError::SINBOHA_ERROR_OK != m_Heartbeat.Start(
+    if (SinbohaError::SINBOHA_ERROR_OK != m_Sync.Start(
         PeerPrimaryAddress,
         PeerSecondaryAddress, 
         PeerPort,
@@ -72,7 +83,7 @@ SinbohaImp::~SinbohaImp()
 
 SinbohaError SinbohaImp::Release()
 {
-    m_Heartbeat.Stop();
+    m_Sync.Stop();
     m_RPCService.Stop();
     return SinbohaError();
 }
@@ -100,6 +111,11 @@ void SinbohaImp::Query(chrono::system_clock::time_point & ChangeTime, SinbohaSta
 bool SinbohaImp::IfAllowPeerActivate(const chrono::system_clock::time_point & PeerChangeTime, const SinbohaStatus & PeerStatus)
 {
     return m_Status.IfAllowPeerActivate(PeerChangeTime, PeerStatus);
+}
+
+SinbohaError SinbohaImp::RecvData(const string & Data)
+{
+    return m_Status.RecvData(Data);
 }
 
 void SinbohaImp::TryActivate(bool PeerAllowActivate)
@@ -335,4 +351,20 @@ void SinbohaStatusRep::UnRegisterCallback()
 {
     unique_lock<mutex> _(m_Lock);
     m_Callback.reset();
+}
+
+SinbohaError SinbohaStatusRep::RecvData(const string & Data)
+{
+    unique_lock<mutex> _(m_Lock);
+    if (SinbohaStatus::SINBOHA_STATUS_STANDBY != m_Status)
+    {
+        spdlog::default_logger()->error("I am not standby, ignore data synchronization.");
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+
+    if (m_Callback)
+    {
+        m_Callback->OnReceiveData(Data);
+    }
+    return SinbohaError::SINBOHA_ERROR_OK;
 }

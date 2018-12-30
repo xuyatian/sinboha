@@ -29,11 +29,10 @@ class CallBack : public SinbohaCallbackIf
         }
     }
 
-    virtual void OnReceiveTag() override
+    // Í¨¹ý SinbohaCallbackIf ¼Ì³Ð
+    virtual void OnReceiveData(const std::string & Data) override
     {
-    }
-    virtual void OnReceiveData() override
-    {
+        cout << Data << endl;
     }
 };
 
@@ -52,9 +51,11 @@ int main(int argc, char** argv)
 
     ha->RegisterCallback(make_shared<CallBack>());
     
-    this_thread::sleep_for(chrono::seconds(10));
-    ha->Switch();
-    this_thread::sleep_for(chrono::hours(10));
+    for (int i=0; i<1000; i++)
+    {
+        this_thread::sleep_for(5s);
+        ha->SyncData("hello, I am " + std::to_string((int)ha->GetHaStatus()));
+    }
 
     ha->Release();
 }

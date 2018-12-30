@@ -35,6 +35,8 @@ public:
         const SinbohaStatus& PeerStatus,
         bool& Activate);
 
+    SinbohaError SyncData(const string& Data);
+
 private:
     SinbohaError InitializeClient(
         const std::string & PeerAddress,

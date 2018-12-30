@@ -42,7 +42,7 @@
     <ClInclude Include="SinbohaNetClient.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SinbohaHeartbeat.h">
+    <ClInclude Include="SinbohaSync.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClCompile Include="SinbohaNetClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SinbohaHeartbeat.cpp">
+    <ClCompile Include="SinbohaSync.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

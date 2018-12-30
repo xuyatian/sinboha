@@ -166,7 +166,7 @@
     <ClInclude Include="gen-cpp\sinboha_constants.h" />
     <ClInclude Include="gen-cpp\sinboha_types.h" />
     <ClInclude Include="Sinboha.h" />
-    <ClInclude Include="SinbohaHeartbeat.h" />
+    <ClInclude Include="SinbohaSync.h" />
     <ClInclude Include="SinbohaHelper.h" />
     <ClInclude Include="SinbohaImp.h" />
     <ClInclude Include="SinbohaNetClient.h" />
@@ -178,7 +178,7 @@
     <ClCompile Include="gen-cpp\sinboha_constants.cpp" />
     <ClCompile Include="gen-cpp\sinboha_types.cpp" />
     <ClCompile Include="Sinboha.cpp" />
-    <ClCompile Include="SinbohaHeartbeat.cpp" />
+    <ClCompile Include="SinbohaSync.cpp" />
     <ClCompile Include="SinbohaImp.cpp" />
     <ClCompile Include="SinbohaNetClient.cpp" />
     <ClCompile Include="SinbohaNetService.cpp" />

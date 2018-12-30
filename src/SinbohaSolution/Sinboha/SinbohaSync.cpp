@@ -1,17 +1,17 @@
-#include "SinbohaHeartbeat.h"
+#include "SinbohaSync.h"
 #include "SinbohaImp.h"
 #include "spdlog/spdlog.h"
 
-SinbohaHeartbeat::SinbohaHeartbeat():m_Quit(true),m_SwitchTimeout(3000),m_Heartbeat(chrono::milliseconds(500))
+SinbohaSync::SinbohaSync():m_Quit(true),m_SwitchTimeout(3000),m_Heartbeat(chrono::milliseconds(500))
 {
 }
 
 
-SinbohaHeartbeat::~SinbohaHeartbeat()
+SinbohaSync::~SinbohaSync()
 {
 }
 
-SinbohaError SinbohaHeartbeat::Start(const std::string & PeerPrimaryAddress, const std::string & PeerSecondaryAddress, int Port, std::chrono::milliseconds NetworkTimeout, std::chrono::milliseconds Heartbeat, std::chrono::milliseconds SwitchTimeout)
+SinbohaError SinbohaSync::Start(const std::string & PeerPrimaryAddress, const std::string & PeerSecondaryAddress, int Port, std::chrono::milliseconds NetworkTimeout, std::chrono::milliseconds Heartbeat, std::chrono::milliseconds SwitchTimeout)
 {
     m_SwitchTimeout = SwitchTimeout;
     m_Heartbeat = Heartbeat;
@@ -40,7 +40,7 @@ SinbohaError SinbohaHeartbeat::Start(const std::string & PeerPrimaryAddress, con
 
     try
     {
-        m_Future = std::async(launch::async, &SinbohaHeartbeat::Heartbeat, this);
+        m_Future = std::async(launch::async, &SinbohaSync::Heartbeat, this);
     }
     catch (std::system_error e)
     {
@@ -65,7 +65,7 @@ SinbohaError SinbohaHeartbeat::Start(const std::string & PeerPrimaryAddress, con
     return SinbohaError::SINBOHA_ERROR_OK;
 }
 
-SinbohaError SinbohaHeartbeat::Stop()
+SinbohaError SinbohaSync::Stop()
 {
     {
         unique_lock<mutex> _(m_Lock);
@@ -92,7 +92,20 @@ SinbohaError SinbohaHeartbeat::Stop()
     return SinbohaError::SINBOHA_ERROR_OK;
 }
 
-void SinbohaHeartbeat::Heartbeat()
+SinbohaError SinbohaSync::SyncData(const string & Data)
+{
+    unique_lock<mutex> lk(m_Lock);
+
+    if (m_PrimaryNetwork)
+    {
+        return m_PrimaryNetwork->SyncData(Data);
+    }
+
+    spdlog::default_logger()->error("Primary network is not available.");
+    return SinbohaError::SINBOHA_ERROR_FAIL;
+}
+
+void SinbohaSync::Heartbeat()
 {
     chrono::system_clock::time_point ChangeTime;
     chrono::system_clock::time_point SuccessTime;

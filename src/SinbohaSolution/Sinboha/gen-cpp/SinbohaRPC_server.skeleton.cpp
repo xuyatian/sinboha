@@ -27,6 +27,11 @@ class SinbohaRPCHandler : virtual public SinbohaRPCIf {
     printf("CanYouActivateMe\n");
   }
 
+  int16_t SyncData(const std::string& Data) {
+    // Your implementation goes here
+    printf("SyncData\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

@@ -9,11 +9,11 @@
 using namespace std;
 using namespace SINBOHA_NSP;
 
-class SinbohaHeartbeat
+class SinbohaSync
 {
 public:
-    SinbohaHeartbeat();
-    ~SinbohaHeartbeat();
+    SinbohaSync();
+    ~SinbohaSync();
 
     SinbohaError Start(
         const std::string & PeerPrimaryAddress, 
@@ -24,6 +24,8 @@ public:
         std::chrono::milliseconds SwitchTimeout);
 
     SinbohaError Stop();
+
+    SinbohaError SyncData(const string& Data);
 private:
     void Heartbeat();
     future<void> m_Future;

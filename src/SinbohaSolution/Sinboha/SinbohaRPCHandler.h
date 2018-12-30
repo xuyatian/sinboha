@@ -13,16 +13,23 @@ using namespace SINBOHA_NET;
 class SinbohaRPCHandler : virtual public SinbohaRPCIf
 {
 public:
-    SinbohaRPCHandler() {
-        // Your initialization goes here
+    SinbohaRPCHandler() 
+    {
     }
 
-    ~SinbohaRPCHandler() {
+    ~SinbohaRPCHandler()
+    {
     }
 
-    bool CanYouActivateMe(const int64_t ChangeTime, const int16_t Status) {
+    bool CanYouActivateMe(const int64_t ChangeTime, const int16_t Status) 
+    {
         auto PeerChangeTime = chrono::system_clock::time_point(chrono::milliseconds(ChangeTime));
         return SinbohaImp::Instance()->IfAllowPeerActivate(PeerChangeTime, SinbohaStatus(Status));
+    }
+
+    int16_t SyncData(const std::string & Data) 
+    {
+        return (int16_t)SinbohaImp::Instance()->RecvData(Data);
     }
 };
 

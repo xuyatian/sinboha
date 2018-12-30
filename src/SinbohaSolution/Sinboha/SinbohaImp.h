@@ -3,7 +3,7 @@
 #include <mutex>
 #include "Sinboha.h"
 #include "SinbohaNetService.h"
-#include "SinbohaHeartbeat.h"
+#include "SinbohaSync.h"
 
 using namespace std;
 using namespace SINBOHA_NSP;
@@ -21,6 +21,8 @@ public:
 
     void RegisterCallback(shared_ptr<SinbohaCallbackIf>);
     void UnRegisterCallback();
+
+    SinbohaError RecvData(const string& Data);
 private:
     mutex m_Lock;
     chrono::system_clock::time_point m_ChangeTime;
@@ -51,9 +53,11 @@ public:
     void UnRegisterCallback() override;
     virtual SinbohaError Switch() override;
     SinbohaStatus GetHaStatus() override;
+    SinbohaError SyncData(const std::string& Data) override;
 
     void Query(chrono::system_clock::time_point& ChangeTime, SinbohaStatus& Status);
     bool IfAllowPeerActivate(const chrono::system_clock::time_point& PeerChangeTime, const SinbohaStatus& PeerStatus);
+    SinbohaError RecvData(const string& Data);
     void TryActivate(bool PeerAllowActivate);
     void BrainSplit(const chrono::milliseconds& PeerIdle);
 
@@ -66,6 +70,6 @@ private:
 
     SinbohaStatusRep m_Status;
     SinbohaNetService m_RPCService;
-    SinbohaHeartbeat m_Heartbeat;
+    SinbohaSync m_Sync;
 };
 

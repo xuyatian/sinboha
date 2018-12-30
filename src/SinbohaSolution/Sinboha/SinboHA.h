@@ -29,8 +29,7 @@ namespace SINBOHA_NSP
     {
     public:
         virtual void OnStatusChange(SinbohaStatus Status) = 0;
-        virtual void OnReceiveTag() = 0;
-        virtual void OnReceiveData() = 0;
+        virtual void OnReceiveData(const std::string& Data) = 0;
     };
 
     class SinbohaIf
@@ -49,6 +48,7 @@ namespace SINBOHA_NSP
          virtual SinbohaError Release() = 0;
          virtual void RegisterCallback(std::shared_ptr<SinbohaCallbackIf>) = 0;
          virtual void UnRegisterCallback() = 0;
+         virtual SinbohaError SyncData(const std::string& Data) = 0;
          virtual SinbohaError Switch() = 0;
          virtual SinbohaStatus GetHaStatus() = 0;
     };

@@ -51,17 +51,50 @@ SinbohaError SinbohaNetClient::CanYouActivateMe(const chrono::system_clock::time
     }
     catch (TTransportException ex)
     {
-        spdlog::default_logger()->error("RPC call failed: {}.", ex.what());
+        spdlog::default_logger()->error("RPC sync status failed: {}.", ex.what());
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
     catch (TException ex)
     {
-        spdlog::default_logger()->error("RPC call failed: {}.", ex.what());
+        spdlog::default_logger()->error("RPC sync status failed: {}.", ex.what());
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
     catch (...)
     {
-        spdlog::default_logger()->error("RPC call failed.");
+        spdlog::default_logger()->error("RPC sync status failed.");
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+
+    return SinbohaError::SINBOHA_ERROR_OK;
+}
+
+SinbohaError SinbohaNetClient::SyncData(const string & Data)
+{
+    unique_lock<mutex> _(m_Lock);
+
+    try
+    {
+        if (SinbohaError::SINBOHA_ERROR_OK != SinbohaError(m_Client->SyncData(Data)))
+        {
+            spdlog::default_logger()->error("RPC sync data failed: Peer error.");
+            return SinbohaError::SINBOHA_ERROR_FAIL;
+        }
+
+        return SinbohaError::SINBOHA_ERROR_OK;
+    }
+    catch (TTransportException ex)
+    {
+        spdlog::default_logger()->error("RPC sync data failed: {}.", ex.what());
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+    catch (TException ex)
+    {
+        spdlog::default_logger()->error("RPC sync data failed: {}.", ex.what());
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+    catch (...)
+    {
+        spdlog::default_logger()->error("RPC sync data failed.");
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
 

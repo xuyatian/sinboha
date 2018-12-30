@@ -1,0 +1,40 @@
+/*!\mainpage CVEA API Guide
+\section intro_sec Introduction
+CVEA provides a C/C++ API for user to build events(e.g.: fault, syslog, measurement...) and send it to VES agent.
+\section install_sec Installation
+
+\subsection download_subsec Download rpms from artifactory
+- evel-libs-<version>.rpm
+
+  Evel-library, it is used to build event and encode event to json string.
+- vagt-libs-<version>.rpm
+
+  CVEA RPC library, it is used to send event or json string to VES agent.
+- vagt-devel-<version>.rpm
+
+  CVEA development package. It includes the API header files and samples.
+
+\subsection install_subsec Install the RPMs
+rpm -ivh evel-libs-<version>.rpm vagt-libs-<version> vagt-devel-<version>.rpm
+
+After installtion, the following files are installed:
+
+- /usr/lib64/libevel.so
+- /usr/lib64/libcvea_api_c.so
+- /usr/lib64/libcvea_api_cpp.so
+- /etc/vagt/devel/samples/c/Makefile
+- /etc/vagt/devel/samples/c/cvea_api_c_sample.c
+- /etc/vagt/devel/samples/cpp/Makefile
+- /etc/vagt/devel/samples/cpp/cvea_api_cpp_sample.cc
+- /usr/include/cvea_api_c.h
+- /usr/include/cvea_api_cpp.h
+- /usr/include/cvea_evel.h
+- /usr/include/double_list.h
+- /usr/include/hashtable.h
+- /usr/include/jsmn.h
+
+\section qs_sec Samples
+Samples can be found at:
+- /etc/vagt/devel/samples/cpp 
+- /etc/vagt/devel/samples/c
+*/

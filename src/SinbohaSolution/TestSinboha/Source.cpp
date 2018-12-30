@@ -29,7 +29,6 @@ class CallBack : public SinbohaCallbackIf
         }
     }
 
-    // Í¨¹ý SinbohaCallbackIf ¼Ì³Ð
     virtual void OnReceiveData(const std::string & Data) override
     {
         cout << Data << endl;

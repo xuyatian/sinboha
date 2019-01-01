@@ -76,13 +76,13 @@ namespace SINBOHA_NSP
         *    HA接口初始化方法
         *
         *    @param          PeerPrimaryAddress
-        *                    对端主网络地址(IP或主机名),非空字符串。
+        *                    对端主网络地址(IP或主机名)。
         *    @param          PeerSecondaryAddress
-        *                    对端备用网络地址(IP或主机名），空字符串则表示不使用备用网络。
+        *                    对端备用网络地址(IP或主机名)。
         *    @param          PeerPort
         *                    对端同步端口号，与对端Port参数对应。
         *    @param          Port
-        *                    本机同步端口号，与对端PeerPort端口对应。同时保留2个端口号，以保证该模块可以在本机运行。
+        *                    本机同步端口号，与对端PeerPort端口对应。同时保留2个端口号，以便在本机调试运行。
         *    @param          NetworkTimeout
         *                    网络超时，TCP连接，发送、接收超时。
         *    @param          Heartbeat
@@ -90,7 +90,7 @@ namespace SINBOHA_NSP
         *    @param          SwitchTimeout
         *                    对端无响应切换超时。如果在SwitchTimeout时间内无法与对端通信，则自动切换为激活状态。
         *    @param          Debug
-        *                    是否开启Debug级别的log。
+        *                    是否开启Debug级别的log，log路径为可执行文件统计目录下sinboha.log。
         *    @return         SinbohaError
         *****************************************************************************************************/
          virtual SinbohaError Initialize(

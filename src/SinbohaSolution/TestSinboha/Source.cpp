@@ -37,16 +37,17 @@ class CallBack : public SinbohaCallbackIf
 
 int main(int argc, char** argv)
 {
-    string Peer = argv[1];
-    int PeerPort = atoi(argv[2]);
-    int Port = atoi(argv[3]);
-    int Timeout = atoi(argv[4]);
-    int Heartbeat = atoi(argv[5]);
-    int SwitchTimeout = atoi(argv[6]);
+    string Peer1 = argv[1];
+    string Peer2 = argv[2];
+    int PeerPort = atoi(argv[3]);
+    int Port = atoi(argv[4]);
+    int Timeout = atoi(argv[5]);
+    int Heartbeat = atoi(argv[6]);
+    int SwitchTimeout = atoi(argv[7]);
 
     auto ha = GetSinbohaIf();
 
-    auto rc = ha->Initialize(Peer, "", PeerPort, Port, chrono::milliseconds(Timeout), chrono::milliseconds(Heartbeat), chrono::milliseconds(SwitchTimeout));
+    auto rc = ha->Initialize(Peer1, Peer2, PeerPort, Port, chrono::milliseconds(Timeout), chrono::milliseconds(Heartbeat), chrono::milliseconds(SwitchTimeout));
 
     ha->RegisterCallback(make_shared<CallBack>());
     

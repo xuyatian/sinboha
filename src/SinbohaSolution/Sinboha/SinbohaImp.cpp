@@ -22,7 +22,7 @@ SinbohaError SinbohaImp::SyncData(const string& Data)
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
 
-    return m_Sync.SyncData(Data);
+    return m_PrimarySyncer.SyncData(Data);
 }
 
 SinbohaError SinbohaImp::Initialize(
@@ -47,18 +47,28 @@ SinbohaError SinbohaImp::Initialize(
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
 
-    //wait for rpc service is ready.
-    this_thread::sleep_for(chrono::milliseconds(200));
-
-    if (SinbohaError::SINBOHA_ERROR_OK != m_Sync.Start(
+    if (SinbohaError::SINBOHA_ERROR_OK != m_PrimarySyncer.Start(
         PeerPrimaryAddress,
-        PeerSecondaryAddress, 
         PeerPort,
         NetworkTimeout,
-        Heartbeat, 
-        SwitchTimeout))
+        Heartbeat))
     {
-        spdlog::default_logger()->error("Could not start heartbeat.");
+        spdlog::default_logger()->error("Could not start primary heartbeat.");
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+
+    if (SinbohaError::SINBOHA_ERROR_OK != m_SecondarySyncer.Start(
+        PeerSecondaryAddress,
+        PeerPort,
+        NetworkTimeout,
+        Heartbeat))
+    {
+        spdlog::default_logger()->warn("Could not start secondary heartbeat.");
+    }
+
+    if (SinbohaError::SINBOHA_ERROR_OK != m_BrainsplitChecker.Start(SwitchTimeout))
+    {
+        spdlog::default_logger()->error("Could not start brain split checker.");
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
 
@@ -83,9 +93,11 @@ SinbohaImp::~SinbohaImp()
 
 SinbohaError SinbohaImp::Release()
 {
-    m_Sync.Stop();
+    m_BrainsplitChecker.Stop();
+    m_SecondarySyncer.Stop();
+    m_PrimarySyncer.Stop();
     m_RPCService.Stop();
-    return SinbohaError();
+    return SinbohaError::SINBOHA_ERROR_OK;
 }
 
 void SinbohaImp::RegisterCallback(shared_ptr<SinbohaCallbackIf> Callback)
@@ -123,14 +135,20 @@ void SinbohaImp::TryActivate(bool PeerAllowActivate)
     return m_Status.TryActivate(PeerAllowActivate);
 }
 
-void SinbohaImp::BrainSplit(const chrono::milliseconds& Idle)
+chrono::system_clock::time_point SinbohaImp::PeerLiveTime()
 {
-    return m_Status.BrainSplit(Idle);
+    return m_Status.PeerLiveTime();
+}
+
+void SinbohaImp::BrainSplit()
+{
+    return m_Status.BrainSplit();
 }
 
 SinbohaStatusRep::SinbohaStatusRep():
     m_ChangeTime(chrono::system_clock::now()),
-    m_Status(SinbohaStatus::SINBOHA_STATUS_PENDING)
+    m_Status(SinbohaStatus::SINBOHA_STATUS_PENDING),
+    m_PeerLiveTime(chrono::system_clock::now())
 {
 }
 
@@ -166,7 +184,7 @@ bool SinbohaStatusRep::IfAllowPeerActivate(const chrono::system_clock::time_poin
 
     unique_lock<mutex> _(m_Lock);
 
-    m_PeerAccessTime = chrono::system_clock::now();
+    m_PeerLiveTime.store(chrono::system_clock::now());
 
     spdlog::default_logger()->debug("Peer status: {}/{}, my status: {}/{}.",
         PeerStatus,
@@ -245,6 +263,8 @@ void SinbohaStatusRep::TryActivate(bool PeerAllowActivate)
 {
     unique_lock<mutex> _(m_Lock);
 
+    m_PeerLiveTime.store(chrono::system_clock::now());
+
     spdlog::default_logger()->debug("Peer activate me? {}.", PeerAllowActivate ? "Yes" : "No");
 
     if (PeerAllowActivate)
@@ -283,38 +303,6 @@ void SinbohaStatusRep::TryActivate(bool PeerAllowActivate)
             if (m_Callback) m_Callback->OnStatusChange(m_Status);
         }
     }
-}
-
-void SinbohaStatusRep::BrainSplit(const chrono::milliseconds& Idle)
-{
-    unique_lock<mutex> _(m_Lock);
-
-    spdlog::default_logger()->debug("Brain split, try to active myself.");
-
-    if (SinbohaStatus::SINBOHA_STATUS_ACTIVE == m_Status)
-    {
-        spdlog::default_logger()->debug("Brain split, ignore activate.");
-        return;
-    }
-
-    auto now = chrono::system_clock::now();
-    auto PeerIdle = now - m_PeerAccessTime;
-    if (PeerIdle < Idle)
-    {
-        spdlog::default_logger()->debug("Brain split, peer idle: {}ms < {}ms, ignore.", PeerIdle.count(), Idle.count());
-        return;
-    }
-
-    spdlog::default_logger()->info("Brain split, **SWITCH** status from {}/{} to {}/{}.",
-        m_Status,
-        SINBOHA_HELPER::ToString(m_ChangeTime),
-        SinbohaStatus::SINBOHA_STATUS_ACTIVE,
-        SINBOHA_HELPER::ToString(now));
-
-    m_Status = SinbohaStatus::SINBOHA_STATUS_ACTIVE;
-    m_ChangeTime = now;
-
-    if (m_Callback) m_Callback->OnStatusChange(m_Status);
 }
 
 SinbohaError SinbohaStatusRep::Switch()
@@ -367,4 +355,34 @@ SinbohaError SinbohaStatusRep::RecvData(const string & Data)
         m_Callback->OnReceiveData(Data);
     }
     return SinbohaError::SINBOHA_ERROR_OK;
+}
+
+chrono::system_clock::time_point SinbohaStatusRep::PeerLiveTime()
+{
+    return m_PeerLiveTime.load();
+}
+
+void SinbohaStatusRep::BrainSplit()
+{
+    unique_lock<mutex> _(m_Lock);
+
+    spdlog::default_logger()->debug("Brain split, try to active myself.");
+
+    if (SinbohaStatus::SINBOHA_STATUS_ACTIVE == m_Status)
+    {
+        spdlog::default_logger()->debug("Brain split, ignore activate.");
+        return;
+    }
+        
+    auto now = chrono::system_clock::now();
+    spdlog::default_logger()->info("Brain split, **SWITCH** status from {}/{} to {}/{}.",
+            m_Status,
+            SINBOHA_HELPER::ToString(m_ChangeTime),
+            SinbohaStatus::SINBOHA_STATUS_ACTIVE,
+            SINBOHA_HELPER::ToString(now));
+
+    m_Status = SinbohaStatus::SINBOHA_STATUS_ACTIVE;
+    m_ChangeTime = now;
+
+    if (m_Callback) m_Callback->OnStatusChange(m_Status);
 }

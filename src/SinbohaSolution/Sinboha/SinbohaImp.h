@@ -4,6 +4,7 @@
 #include "Sinboha.h"
 #include "SinbohaNetService.h"
 #include "SinbohaSync.h"
+#include "SinbohaBrainsplit.h"
 
 using namespace std;
 using namespace SINBOHA_NSP;
@@ -16,20 +17,22 @@ public:
     void Query(chrono::system_clock::time_point& ChangeTime, SinbohaStatus& Status);
     bool IfAllowPeerActivate(const chrono::system_clock::time_point& PeerChangeTime, const SinbohaStatus& PeerStatus);
     void TryActivate(bool PeerAllowActivate);
-    void BrainSplit(const chrono::milliseconds& Idle);
     SinbohaError Switch();
 
     void RegisterCallback(shared_ptr<SinbohaCallbackIf>);
     void UnRegisterCallback();
 
     SinbohaError RecvData(const string& Data);
+    chrono::system_clock::time_point PeerLiveTime();
+    void BrainSplit();
+
 private:
     mutex m_Lock;
     chrono::system_clock::time_point m_ChangeTime;
     SinbohaStatus m_Status;
     shared_ptr<SinbohaCallbackIf> m_Callback;
 
-    chrono::system_clock::time_point m_PeerAccessTime;
+    atomic<chrono::system_clock::time_point> m_PeerLiveTime;
 };
 
 class SinbohaImp : public SinbohaIf
@@ -59,8 +62,8 @@ public:
     bool IfAllowPeerActivate(const chrono::system_clock::time_point& PeerChangeTime, const SinbohaStatus& PeerStatus);
     SinbohaError RecvData(const string& Data);
     void TryActivate(bool PeerAllowActivate);
-    void BrainSplit(const chrono::milliseconds& PeerIdle);
-
+    chrono::system_clock::time_point PeerLiveTime();
+    void BrainSplit();
 private:
     SinbohaImp();
     SinbohaImp(const SinbohaImp&) = delete;
@@ -70,6 +73,8 @@ private:
 
     SinbohaStatusRep m_Status;
     SinbohaNetService m_RPCService;
-    SinbohaSync m_Sync;
+    SinbohaSync m_PrimarySyncer;
+    SinbohaSync m_SecondarySyncer;
+    SinbohaBrainSplit m_BrainsplitChecker;
 };
 

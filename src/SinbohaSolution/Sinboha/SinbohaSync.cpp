@@ -11,52 +11,51 @@ SinbohaSync::~SinbohaSync()
 {
 }
 
-SinbohaError SinbohaSync::Start(const std::string & PeerPrimaryAddress, const std::string & PeerSecondaryAddress, int Port, std::chrono::milliseconds NetworkTimeout, std::chrono::milliseconds Heartbeat, std::chrono::milliseconds SwitchTimeout)
+SinbohaError SinbohaSync::Start(const std::string & PeerAddress, int Port, std::chrono::milliseconds NetworkTimeout, std::chrono::milliseconds Heartbeat)
 {
-    m_SwitchTimeout = SwitchTimeout;
     m_Heartbeat = Heartbeat;
+    m_PeerAddress = PeerAddress;
+    m_PeerPort = Port;
+    m_NetworkTimeout = NetworkTimeout;
+
+    if (PeerAddress.empty())
+    {
+        spdlog::warn("Peer address is not available: {}.", PeerAddress);
+        return SinbohaError::SINBOHA_ERROR_FAIL;
+    }
+
     unique_lock<mutex> _(m_Lock);
 
     if (!m_Quit.load())
     {
-        spdlog::default_logger()->warn("Heartbeat is running.");
+        spdlog::default_logger()->warn("Heartbeat via {} is running.", PeerAddress);
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
 
-    spdlog::default_logger()->info("Starting heartbeat.");
+    spdlog::default_logger()->info("Starting heartbeat via {}.", PeerAddress);
     m_Quit.store(false);
 
-    if (!PeerPrimaryAddress.empty())
-    {
-        m_PrimaryNetwork = make_shared<SinbohaNetClient>();
-        m_PrimaryNetwork->Initialize(PeerPrimaryAddress, Port, NetworkTimeout);
-    }
-
-    if (!PeerSecondaryAddress.empty())
-    {
-        m_SecondaryNetwork = make_shared<SinbohaNetClient>();
-        m_SecondaryNetwork->Initialize(PeerPrimaryAddress, Port, NetworkTimeout);
-    }
+    m_Network = make_shared<SinbohaNetClient>();
 
     try
     {
-        m_Future = std::async(launch::async, &SinbohaSync::Heartbeat, this);
+        m_Future = std::async(launch::async, &SinbohaSync::SyncHeartbeat, this);
     }
     catch (std::system_error e)
     {
-        spdlog::default_logger()->error("Fail to start heartbeat: {}.", e.what());
+        spdlog::default_logger()->error("Fail to start heartbeat via {} : {}.", PeerAddress,e.what());
         m_Quit.store(true);
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
     catch (std::bad_alloc e)
     {
-        spdlog::default_logger()->error("Fail to start heartbeat: {}.", e.what());
+        spdlog::default_logger()->error("Fail to start heartbeat via {} : {}.", PeerAddress,e.what());
         m_Quit.store(true);
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
     catch (...)
     {
-        spdlog::default_logger()->error("Fail to start heartbeat: Unknown exception.");
+        spdlog::default_logger()->error("Fail to start heartbeat via {} : Unknown exception.", PeerAddress);
         m_Quit.store(true);
         return SinbohaError::SINBOHA_ERROR_FAIL;
     }
@@ -72,11 +71,11 @@ SinbohaError SinbohaSync::Stop()
 
         if (m_Quit.load())
         {
-            spdlog::default_logger()->warn("Heartbeat is stopped.");
+            spdlog::default_logger()->warn("Heartbeat via {} is stopped.", m_PeerAddress);
             return SinbohaError::SINBOHA_ERROR_FAIL;
         }
 
-        spdlog::default_logger()->info("Stopping heartbeat.");
+        spdlog::default_logger()->info("Stopping heartbeat via {}.", m_PeerAddress);
 
         m_Quit.store(true);
         m_Cond.notify_one();
@@ -84,10 +83,9 @@ SinbohaError SinbohaSync::Stop()
 
     m_Future.wait();
 
-    m_PrimaryNetwork->Release();
-    m_SecondaryNetwork->Release();
+    m_Network->Release();
 
-    spdlog::default_logger()->info("Stopped heartbeat.");
+    spdlog::default_logger()->info("Stopped heartbeat via {}.", m_PeerAddress);
 
     return SinbohaError::SINBOHA_ERROR_OK;
 }
@@ -96,17 +94,19 @@ SinbohaError SinbohaSync::SyncData(const string & Data)
 {
     unique_lock<mutex> lk(m_Lock);
 
-    if (m_PrimaryNetwork)
+    if (m_Network)
     {
-        return m_PrimaryNetwork->SyncData(Data);
+        return m_Network->SyncData(Data);
     }
 
-    spdlog::default_logger()->error("Primary network is not available.");
+    spdlog::default_logger()->error("Network is not available.");
     return SinbohaError::SINBOHA_ERROR_FAIL;
 }
 
-void SinbohaSync::Heartbeat()
+void SinbohaSync::SyncHeartbeat()
 {
+    m_Network->Initialize(m_PeerAddress, m_PeerPort, m_NetworkTimeout);
+
     chrono::system_clock::time_point ChangeTime;
     chrono::system_clock::time_point SuccessTime;
     SinbohaStatus Status;
@@ -120,7 +120,7 @@ void SinbohaSync::Heartbeat()
             bool notify = m_Cond.wait_for(lk, Interval, [this]() {return m_Quit.load(); });
             if (notify)
             {
-                spdlog::default_logger()->info("Exiting heartbeat.");
+                spdlog::default_logger()->info("Exiting heartbeat via {}.", m_PeerAddress);
                 return;
             }
 
@@ -128,40 +128,18 @@ void SinbohaSync::Heartbeat()
         }
 
         SinbohaImp::Instance()->Query(ChangeTime, Status);
-        if (m_PrimaryNetwork)
+        if (m_Network)
         {
-            if (SinbohaError::SINBOHA_ERROR_OK == m_PrimaryNetwork->CanYouActivateMe(ChangeTime, Status, Activate))
+            if (SinbohaError::SINBOHA_ERROR_OK == m_Network->CanYouActivateMe(ChangeTime, Status, Activate))
             {
                 SinbohaImp::Instance()->TryActivate(Activate);
                 SuccessTime = chrono::system_clock::now();
             }
             else
             {
-                spdlog::default_logger()->warn("Primary network down, reset.");
-                m_PrimaryNetwork->ReInitialize();
-
-                if (m_SecondaryNetwork)
-                {
-                    spdlog::default_logger()->warn("Try secondary network.");
-                    if (SinbohaError::SINBOHA_ERROR_OK == m_SecondaryNetwork->CanYouActivateMe(ChangeTime, Status, Activate))
-                    {
-                        SinbohaImp::Instance()->TryActivate(Activate);
-                        SuccessTime = chrono::system_clock::now();
-                    }
-                    else
-                    {
-                        spdlog::default_logger()->warn("Secondary network down, reset.");
-                        m_SecondaryNetwork->ReInitialize();
-                    }
-                }
+                spdlog::default_logger()->warn("Network to {} down, reset.", m_PeerAddress);
+                m_Network->ReInitialize();
             }
-        }
-
-        if (chrono::system_clock::now()- SuccessTime > m_SwitchTimeout)
-        {
-            spdlog::default_logger()->debug("Brain split, activate myself.");
-            SinbohaImp::Instance()->BrainSplit(m_SwitchTimeout);
-            SuccessTime = chrono::system_clock::now();
         }
     }
 }

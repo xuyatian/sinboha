@@ -45,6 +45,9 @@
     <ClInclude Include="SinbohaSync.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SinbohaBrainSplit.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sinboha.cpp">
@@ -69,6 +72,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SinbohaSync.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SinbohaBrainSplit.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SinbohaHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

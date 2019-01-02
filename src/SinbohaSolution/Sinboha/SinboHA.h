@@ -90,7 +90,7 @@ namespace SINBOHA_NSP
         *    @param          SwitchTimeout
         *                    对端无响应切换超时。如果在SwitchTimeout时间内无法与对端通信，则自动切换为激活状态。
         *    @param          Debug
-        *                    是否开启Debug级别的log，log路径为可执行文件统计目录下sinboha.log。
+        *                    是否开启Debug级别的log，log路径为可执行文件目录下sinboha.log。
         *    @return         SinbohaError
         *****************************************************************************************************/
          virtual SinbohaError Initialize(

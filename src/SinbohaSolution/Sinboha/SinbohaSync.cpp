@@ -108,7 +108,6 @@ void SinbohaSync::SyncHeartbeat()
     m_Network->Initialize(m_PeerAddress, m_PeerPort, m_NetworkTimeout);
 
     chrono::system_clock::time_point ChangeTime;
-    chrono::system_clock::time_point SuccessTime;
     SinbohaStatus Status;
     bool Activate = false;
     chrono::milliseconds Interval(0);
@@ -133,7 +132,6 @@ void SinbohaSync::SyncHeartbeat()
             if (SinbohaError::SINBOHA_ERROR_OK == m_Network->CanYouActivateMe(ChangeTime, Status, Activate))
             {
                 SinbohaImp::Instance()->TryActivate(Activate);
-                SuccessTime = chrono::system_clock::now();
             }
             else
             {

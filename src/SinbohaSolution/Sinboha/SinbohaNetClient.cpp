@@ -47,6 +47,11 @@ SinbohaError SinbohaNetClient::CanYouActivateMe(const chrono::system_clock::time
 
     try
     {
+        if (!m_Client)
+        {
+            spdlog::default_logger()->error("Client is not initialized.");
+            return SinbohaError::SINBOHA_ERROR_FAIL;
+        }
         Activate = m_Client->CanYouActivateMe(epoch, (int16_t)PeerStatus);
     }
     catch (TTransportException ex)
@@ -74,6 +79,12 @@ SinbohaError SinbohaNetClient::SyncData(const string & Data)
 
     try
     {
+        if (!m_Client)
+        {
+            spdlog::default_logger()->error("Client is not initialized.");
+            return SinbohaError::SINBOHA_ERROR_FAIL;
+        }
+
         if (SinbohaError::SINBOHA_ERROR_OK != SinbohaError(m_Client->SyncData(Data)))
         {
             spdlog::default_logger()->error("RPC sync data failed: Peer error.");
@@ -147,6 +158,7 @@ SinbohaError SinbohaNetClient::ReleaseClient()
     {
         m_Transport->close();
         m_Transport.reset();
+        m_Client.reset();
     }
     catch (TTransportException ex)
     {

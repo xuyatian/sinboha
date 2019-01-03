@@ -6,7 +6,8 @@ var indexSectionsWithContent =
   3: "s",
   4: "giorsu",
   5: "s",
-  6: "s"
+  6: "s",
+  7: "s"
 };
 
 var indexSectionNames =
@@ -17,7 +18,8 @@ var indexSectionNames =
   3: "files",
   4: "functions",
   5: "enums",
-  6: "enumvalues"
+  6: "enumvalues",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -28,6 +30,7 @@ var indexSectionLabels =
   3: "文件",
   4: "函数",
   5: "枚举",
-  6: "枚举值"
+  6: "枚举值",
+  7: "页"
 };
 

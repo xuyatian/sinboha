@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['sinboha_20文档',['Sinboha 文档',['../index.html',1,'']]],
   ['sinboha_2eh',['Sinboha.h',['../Sinboha_8h.html',1,'']]],
   ['sinboha_5ferror_5ffail',['SINBOHA_ERROR_FAIL',['../namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4ba728c610cc468af23d0fc2f5ca78345aa',1,'SINBOHA_NSP']]],
   ['sinboha_5ferror_5fok',['SINBOHA_ERROR_OK',['../namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4ba0a43f30250a56257709ef1e86d6f4dfa',1,'SINBOHA_NSP']]],

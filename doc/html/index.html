@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sinboha API: 首页</title>
+<title>Sinboha API: Sinboha 文档</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -60,11 +60,20 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Sinboha API 文档</div>  </div>
+<div class="title">Sinboha 文档 </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
+简介</h1>
+<p>Sinboha提供双机高可用(High Availability)方案。 </p>
+<h1><a class="anchor" id="download_sec"></a>
+下载</h1>
+<p><a href="https://pan.baidu.com/s/155crng_Fx_V7rmw7rSDaUA">https://pan.baidu.com/s/155crng_Fx_V7rmw7rSDaUA</a> </p>
+<h1><a class="anchor" id="sample_sec"></a>
+示例</h1>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;../Sinboha/Sinboha.h&quot;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">using namespace </span>std;</div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceSINBOHA__NSP.html">SINBOHA_NSP</a>;</div><div class="line"><span class="keyword">using namespace </span>std::chrono_literals;</div><div class="line"></div><div class="line"><span class="keyword">class </span>CallBack : <span class="keyword">public</span> <a class="code" href="classSINBOHA__NSP_1_1SinbohaCallbackIf.html">SinbohaCallbackIf</a></div><div class="line">{</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnStatusChange(<a class="code" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9">SinbohaStatus</a> Status)<span class="keyword"> override</span></div><div class="line"><span class="keyword">    </span>{</div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9ab25b532e2c2e7457afac127137d57d38">SinbohaStatus::SINBOHA_STATUS_PENDING</a> == Status)</div><div class="line">        {</div><div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;PENDING&quot;</span> &lt;&lt; endl;</div><div class="line">            <span class="keywordflow">return</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9af1f51ea2f0e6970a49c84b9f88214c59">SinbohaStatus::SINBOHA_STATUS_ACTIVE</a> == Status)</div><div class="line">        {</div><div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;ACTIVE&quot;</span> &lt;&lt; endl;</div><div class="line">            <span class="keywordflow">return</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9a5b35895c7290656ff9c3a4230b600bea">SinbohaStatus::SINBOHA_STATUS_STANDBY</a> == Status)</div><div class="line">        {</div><div class="line">            cout &lt;&lt; <span class="stringliteral">&quot;STANDBY&quot;</span> &lt;&lt; endl;</div><div class="line">            <span class="keywordflow">return</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnReceiveData(<span class="keyword">const</span> std::string &amp; Data)<span class="keyword"> override</span></div><div class="line"><span class="keyword">    </span>{</div><div class="line">        cout &lt;&lt; Data &lt;&lt; endl;</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv)</div><div class="line">{</div><div class="line">    <span class="keyword">auto</span> ha = <a class="code" href="Sinboha_8h.html#ace16f842fbb40d377d929354ff73281b">GetSinbohaIf</a>();</div><div class="line">    <span class="keyword">auto</span> rc = ha-&gt;Initialize(<span class="stringliteral">&quot;192.168.0.100&quot;</span>, <span class="stringliteral">&quot;192.168.0.101&quot;</span>, 1234, 5678, 200ms, 500ms, 1s);</div><div class="line"></div><div class="line">    ha-&gt;RegisterCallback(make_shared&lt;CallBack&gt;());</div><div class="line">    </div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i&lt;10; i++)</div><div class="line">    {</div><div class="line">        this_thread::sleep_for(1s);</div><div class="line">        ha-&gt;SyncData(<span class="stringliteral">&quot;hello, I am &quot;</span> + std::to_string((<span class="keywordtype">int</span>)ha-&gt;GetHaStatus()));</div><div class="line">    }</div><div class="line"></div><div class="line">    ha-&gt;Release();</div><div class="line">}</div></div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

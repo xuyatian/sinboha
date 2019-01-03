@@ -1,0 +1,61 @@
+﻿/*!\mainpage Sinboha 文档
+\section intro_sec 简介
+Sinboha提供双机高可用(High Availability)方案。
+\section download_sec 下载
+https://pan.baidu.com/s/155crng_Fx_V7rmw7rSDaUA
+\section sample_sec 示例
+```
+#include "../Sinboha/Sinboha.h"
+#include <iostream>
+#include <thread>
+
+using namespace std;
+using namespace SINBOHA_NSP;
+using namespace std::chrono_literals;
+
+class CallBack : public SinbohaCallbackIf
+{
+    virtual void OnStatusChange(SinbohaStatus Status) override
+    {
+        if (SinbohaStatus::SINBOHA_STATUS_PENDING == Status)
+        {
+            cout << "PENDING" << endl;
+            return;
+        }
+
+        if (SinbohaStatus::SINBOHA_STATUS_ACTIVE == Status)
+        {
+            cout << "ACTIVE" << endl;
+            return;
+        }
+
+        if (SinbohaStatus::SINBOHA_STATUS_STANDBY == Status)
+        {
+            cout << "STANDBY" << endl;
+            return;
+        }
+    }
+
+    virtual void OnReceiveData(const std::string & Data) override
+    {
+        cout << Data << endl;
+    }
+};
+
+int main(int argc, char** argv)
+{
+    auto ha = GetSinbohaIf();
+    auto rc = ha->Initialize("192.168.0.100", "192.168.0.101", 1234, 5678, 200ms, 500ms, 1s);
+
+    ha->RegisterCallback(make_shared<CallBack>());
+    
+    for (int i=0; i<10; i++)
+    {
+        this_thread::sleep_for(1s);
+        ha->SyncData("hello, I am " + std::to_string((int)ha->GetHaStatus()));
+    }
+
+    ha->Release();
+}
+```
+*/

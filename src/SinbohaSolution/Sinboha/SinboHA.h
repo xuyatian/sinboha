@@ -84,11 +84,11 @@ namespace SINBOHA_NSP
         *    @param          Port
         *                    本机同步端口号，与对端PeerPort端口对应。同时保留2个端口号，以便在本机调试运行。
         *    @param          NetworkTimeout
-        *                    网络超时，TCP连接，发送、接收超时。
+        *                    网络超时，TCP连接，发送、接收超时。建议200ms。
         *    @param          Heartbeat
-        *                    双方同步状态时间间隔。
+        *                    双方同步状态时间间隔。建议500ms。
         *    @param          SwitchTimeout
-        *                    对端无响应切换超时。如果在SwitchTimeout时间内无法与对端通信，则自动切换为激活状态。
+        *                    对端无响应切换超时。如果在SwitchTimeout时间内无法与对端通信，则自动切换为激活状态。建议1000ms。
         *    @param          Debug
         *                    是否开启Debug级别的log，log路径为可执行文件目录下sinboha.log。
         *    @return         SinbohaError

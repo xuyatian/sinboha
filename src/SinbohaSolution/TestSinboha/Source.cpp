@@ -1,6 +1,7 @@
 #include "../Sinboha/Sinboha.h"
 #include <iostream>
 #include <thread>
+#include <conio.h>
 
 using namespace std;
 using namespace SINBOHA_NSP;
@@ -50,12 +51,31 @@ int main(int argc, char** argv)
     auto rc = ha->Initialize(Peer1, Peer2, PeerPort, Port, chrono::milliseconds(Timeout), chrono::milliseconds(Heartbeat), chrono::milliseconds(SwitchTimeout));
 
     ha->RegisterCallback(make_shared<CallBack>());
-    
-    for (int i=0; i<1000; i++)
+
+    int ch;
+    while (1)
     {
-        this_thread::sleep_for(5s);
-        ha->SyncData("hello, I am " + std::to_string((int)ha->GetHaStatus()));
+        if (_kbhit()) 
+        {
+            ch = _getch();
+            if (ch == 115)//s
+            {
+                cout << "Switching to Standby" << endl;
+                rc = ha->Switch();
+                if (rc != SinbohaError::SINBOHA_ERROR_OK)
+                {
+                    cout << "Need to switch on Active node" << endl;
+                }
+            }
+
+            if (ch == 27)//esc
+            {
+                cout << "Exiting" << endl;
+                ha->Release();
+                break;
+            }
+        }
     }
 
-    ha->Release();
+    return 0;
 }

@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sinboha API: SINBOHA_NSP::SinbohaIf类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Sinboha API
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.15 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceSINBOHA__NSP.html">SINBOHA_NSP</a></li><li class="navelem"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html">SinbohaIf</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classSINBOHA__NSP_1_1SinbohaIf-members.html">所有成员列表</a>  </div>
+  <div class="headertitle">
+<div class="title">SINBOHA_NSP::SinbohaIf类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>HA接口  
+ <a href="classSINBOHA__NSP_1_1SinbohaIf.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Sinboha_8h_source.html">Sinboha.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a62d1526b5ad32e3e3f9d6d2ac9bec5a3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a62d1526b5ad32e3e3f9d6d2ac9bec5a3">Initialize</a> (const std::string &amp;PeerPrimaryAddress, const std::string &amp;PeerSecondaryAddress, int PeerPort, int Port, std::chrono::milliseconds NetworkTimeout, std::chrono::milliseconds Heartbeat, std::chrono::milliseconds SwitchTimeout, bool Debug=false)=0</td></tr>
+<tr class="separator:a62d1526b5ad32e3e3f9d6d2ac9bec5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61acc0f04a7304f2ff10c0d6ffc6e822"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a61acc0f04a7304f2ff10c0d6ffc6e822">Release</a> ()=0</td></tr>
+<tr class="separator:a61acc0f04a7304f2ff10c0d6ffc6e822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a950671fbfb35dcefd942ba9b3edb81da"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a950671fbfb35dcefd942ba9b3edb81da">RegisterCallback</a> (std::shared_ptr&lt; <a class="el" href="classSINBOHA__NSP_1_1SinbohaCallbackIf.html">SinbohaCallbackIf</a> &gt; Callback)=0</td></tr>
+<tr class="separator:a950671fbfb35dcefd942ba9b3edb81da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f45bc33028648b6f53554b9f0a1f186"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a7f45bc33028648b6f53554b9f0a1f186">UnRegisterCallback</a> ()=0</td></tr>
+<tr class="separator:a7f45bc33028648b6f53554b9f0a1f186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82b955376c7f6d0fed9b2f83a09fd577"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a82b955376c7f6d0fed9b2f83a09fd577">SyncData</a> (const std::string &amp;Data)=0</td></tr>
+<tr class="separator:a82b955376c7f6d0fed9b2f83a09fd577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc13cc54c640db1ad771e171c2690304"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#acc13cc54c640db1ad771e171c2690304">Switch</a> ()=0</td></tr>
+<tr class="separator:acc13cc54c640db1ad771e171c2690304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a467e74d74ebf1fbe0666e11d227b498c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9">SinbohaStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSINBOHA__NSP_1_1SinbohaIf.html#a467e74d74ebf1fbe0666e11d227b498c">GetHaStatus</a> ()=0</td></tr>
+<tr class="separator:a467e74d74ebf1fbe0666e11d227b498c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>HA接口 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a467e74d74ebf1fbe0666e11d227b498c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a467e74d74ebf1fbe0666e11d227b498c">&#9670;&nbsp;</a></span>GetHaStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a593d169527de835241602a7a4f6f64b9">SinbohaStatus</a> SINBOHA_NSP::SinbohaIf::GetHaStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>获取当前状态方法</p>
+<dl class="section return"><dt>返回</dt><dd>当前状态 </dd></dl>
+
+</div>
+</div>
+<a id="a62d1526b5ad32e3e3f9d6d2ac9bec5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62d1526b5ad32e3e3f9d6d2ac9bec5a3">&#9670;&nbsp;</a></span>Initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a> SINBOHA_NSP::SinbohaIf::Initialize </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>PeerPrimaryAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>PeerSecondaryAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>PeerPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>NetworkTimeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>Heartbeat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>SwitchTimeout</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>Debug</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>HA接口初始化方法</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">PeerPrimaryAddress</td><td>对端主网络地址(IP或主机名)。 </td></tr>
+    <tr><td class="paramname">PeerSecondaryAddress</td><td>对端备用网络地址(IP或主机名)。 </td></tr>
+    <tr><td class="paramname">PeerPort</td><td>对端同步端口号，与对端Port参数对应。 </td></tr>
+    <tr><td class="paramname">Port</td><td>本机同步端口号，与对端PeerPort端口对应。同时保留2个端口号，以便在本机调试运行。 </td></tr>
+    <tr><td class="paramname">NetworkTimeout</td><td>网络超时，TCP连接，发送、接收超时。建议200ms。 </td></tr>
+    <tr><td class="paramname">Heartbeat</td><td>双方同步状态时间间隔。建议500ms。 </td></tr>
+    <tr><td class="paramname">SwitchTimeout</td><td>对端无响应切换超时。如果在SwitchTimeout时间内无法与对端通信，则自动切换为激活状态。建议1000ms。 </td></tr>
+    <tr><td class="paramname">Debug</td><td>是否开启Debug级别的log，log路径为可执行文件目录下sinboha.log。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>SinbohaError </dd></dl>
+
+</div>
+</div>
+<a id="a950671fbfb35dcefd942ba9b3edb81da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a950671fbfb35dcefd942ba9b3edb81da">&#9670;&nbsp;</a></span>RegisterCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void SINBOHA_NSP::SinbohaIf::RegisterCallback </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classSINBOHA__NSP_1_1SinbohaCallbackIf.html">SinbohaCallbackIf</a> &gt;&#160;</td>
+          <td class="paramname"><em>Callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>注册回调方法</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Callback</td><td>回调对象指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a61acc0f04a7304f2ff10c0d6ffc6e822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61acc0f04a7304f2ff10c0d6ffc6e822">&#9670;&nbsp;</a></span>Release()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a> SINBOHA_NSP::SinbohaIf::Release </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>HA接口释放方法</p>
+<dl class="section return"><dt>返回</dt><dd>SinbohaError </dd></dl>
+
+</div>
+</div>
+<a id="acc13cc54c640db1ad771e171c2690304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc13cc54c640db1ad771e171c2690304">&#9670;&nbsp;</a></span>Switch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a> SINBOHA_NSP::SinbohaIf::Switch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>主从切换方法</p>
+<dl class="section return"><dt>返回</dt><dd>SinbohaError </dd></dl>
+<dl class="section note"><dt>注解</dt><dd>该方法只能在激活端调用。 </dd></dl>
+
+</div>
+</div>
+<a id="a82b955376c7f6d0fed9b2f83a09fd577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82b955376c7f6d0fed9b2f83a09fd577">&#9670;&nbsp;</a></span>SyncData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespaceSINBOHA__NSP.html#a342b887b65515491133668a68da00d4b">SinbohaError</a> SINBOHA_NSP::SinbohaIf::SyncData </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>Data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>同步数据方法</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Data</td><td>字符串对象，可以用来同步二进制数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>SinbohaError </dd></dl>
+
+</div>
+</div>
+<a id="a7f45bc33028648b6f53554b9f0a1f186"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f45bc33028648b6f53554b9f0a1f186">&#9670;&nbsp;</a></span>UnRegisterCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void SINBOHA_NSP::SinbohaIf::UnRegisterCallback </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>反注册回调方法 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="Sinboha_8h_source.html">Sinboha.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.15
+</small></address>
+</body>
+</html>

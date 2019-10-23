@@ -1,7 +1,7 @@
 # SinboHA
 
 #### Usage sample
-```
+``` c++
 #include "../Sinboha/Sinboha.h"
 #include <iostream>
 #include <thread>

@@ -1,5 +1,7 @@
 # SinboHA
 
+An Active/Standby switch framework.
+
 #### Usage sample
 ``` c++
 #include "../Sinboha/Sinboha.h"
